@@ -1,7 +1,14 @@
 module CKAN
   class Package < Model
-    self.site =  "rest/package"
-    self.search = "search/package"
+
+    # Package List
+    self.site =  "action/package_list"
+
+    # Package Search
+    self.search = "action/package_search"
+
+    # Package Show
+    self.show = "action/package_show"
 
     attr_reader :id
     lazy_reader :name, :title, :url, :version, :author, :author_email,
@@ -11,43 +18,44 @@ module CKAN
       @id = id
     end
 
-    def self.find(options=nil)
-      if options.nil?
-        @all_packages ||= read_remote_json_data(self.site).map{|id| Package.get(id)}
+    def self.find(options={})
+      if options.empty?
+        @all_packages ||= read_remote_json_data(self.site)['result'].map{ |id| Package.new(id) }
       else
-        query = "?"
-        query += options.to_a.
-          map{|k,v| v.is_a?(Array) ? v.map{|vv| "#{k}=#{URI.encode(vv)}"}.join("&") :
-            "#{k}=#{URI.encode(v)}"}.join("&")
-        result = read_remote_json_data(self.search + query)
-        if result["count"] != result["results"].size
-          query += "&offset=#{result["results"].size}&limit=#{result["count"] + result["results"].size}"
-          result["results"] += read_remote_json_data(self.search + query)["results"]
-        end
 
-        result["results"].map{|id| Package.get(id)}
+        # Remove :tags and make :q
+        %w( id tags ).each do |opt|
+          opt = opt.to_sym
+          if options[opt]
+            options[:q] = "#{opt}:" << Array( options.delete(opt) ).join('+')
+          end
+        end
+        
+        url = Addressable::URI.parse(self.search)
+        url.query_values = options
+
+        result = read_remote_json_data(self.unencode(url))
+        Array( result["result"]["results"] ).map{ |data| Package.new(data['id']) }
+
+        # if result["count"] != result["results"].size
+        #   query += "&offset=#{result["results"].size}&limit=#{result["count"] + result["results"].size}"
+        #   result["results"] += read_remote_json_data(self.search + query)["results"]
+        # end
       end
     end
 
     def resources
       read_lazy_data
-      @mapped_resources ||= @resources.
-        map do |r|
-          Resource.new(url: r["url"], format: r["format"], description: r["description"], hash: r["hash"])
-        end
+      @mapped_resources ||= @resources.map { |data| Resource.new(data) }
     end
 
     def to_s
-      "CKAN::Package[#{@id}]"
+      "#<CKAN::Package:#{@id}>"
     end
 
-    protected
-    def self.get(id)
-      @package_map ||= {}
-      unless @package_map[id]
-        @package_map[id] = Package.new(id)
+    private
+      def self.unencode(url)
+        Addressable::URI.unencode(url)
       end
-      @package_map[id]
-    end
   end
 end

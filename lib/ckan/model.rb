@@ -4,8 +4,8 @@ module CKAN
 
     def read_lazy_data
       unless @lazy_data_read
-        self.class.read_remote_json_data(self.class.site + "/" + self.id).
-          each do |name,value|
+        show_response = self.class.read_remote_json_data(self.class.show + "?id=" + self.id)
+        show_response["result"].each do |name,value|
           self.instance_variable_set("@"+name,value)
         end
         @lazy_data_read = true
@@ -32,7 +32,19 @@ module CKAN
       base + @search
     end
 
+    def self.show=(address)
+      @show = address
+    end
+
+    def self.show
+      base + @show
+    end
+
+    # TODO: change method name. It's almost as long
+    #       as the method itself. Maybe #parse_json,
+    #       #read_json, or even #parse or #read.
     def self.read_remote_json_data(address)
+      # puts address
       JSON.parse(open(address).read)
     end
 

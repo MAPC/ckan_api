@@ -11,7 +11,7 @@ describe CKAN::Group do
     its(:name)  { should == "art" }
   end
 
-  describe "#find", :vcr => { :cassette_name => "find all groups" } do
+  describe "#find", vcr: { cassette_name: "find all groups" } do
     let(:all_groups) { CKAN::Group.find }
     
     it "should return an array of all groups" do
@@ -24,7 +24,7 @@ describe CKAN::Group do
     end
   end
   
-  describe "#packages", :vcr => { :cassette_name => "find all group packages" } do
+  describe "#packages", vcr: { cassette_name: "find all group packages" } do
     let(:art_group_packages) { @art_group.packages }
     
     it "should return an array of all groups" do

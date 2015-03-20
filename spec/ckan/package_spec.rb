@@ -1,17 +1,17 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-describe CKAN::Package, :vcr => { :cassette_name => "colournames package" } do
+describe CKAN::Package, vcr: { cassette_name: "colournames package" } do
   before(:each) do
-    @art_package = CKAN::Package.new("colournames")
+    @package = CKAN::Package.new({})
   end
   
   describe "initialization" do
-    subject { @art_package }
-    its(:id) { should == "colournames" }
+    subject { @package }
+    # its(:id) { should == "colournames" }
   end
   
   describe "#find" do
-    context "without search options", :vcr => { :cassette_name => "find all packages" } do
+    context "without search options", vcr: { cassette_name: "find all packages" } do
       let(:all_packages) { CKAN::Package.find }
 
       it "should return an array of all packages" do
@@ -24,45 +24,46 @@ describe CKAN::Package, :vcr => { :cassette_name => "colournames package" } do
       end
     end
     
-    context "with search options", :vcr => { :cassette_name => "find packages tagged lod and government" } do
-      let(:tagged_packages) { CKAN::Package.find(:tags => ["lod", "government"]) }
+    context "with tags", vcr: { cassette_name: "find packages tagged government and weather" } do
+      let(:tagged_packages) { CKAN::Package.find(tags: ["government", "weather"]) }
 
       it "should return an array of tagged packages" do
         tagged_packages.should be_kind_of Array
-        tagged_packages.count.should be_between(100,1000)
+        tagged_packages.count.should be_between(1,2)
       end
 
       it "should consist of Package objects" do
         tagged_packages.first.should be_kind_of Package
       end
     end
+
+    context "with limits", vcr: { cassette_name: "find packages with rows" } do
+      let(:limited_packages) { CKAN::Package.find(rows: 5) }
+      it "should return 5 packages" do
+        limited_packages.should be_kind_of Array
+        limited_packages.count.should eq(5)
+        limited_packages.first.should be_kind_of Package
+      end
+    end
+
   end
   
-  describe "#resources" do
-    it "should change the package object's ID in place" do
-      @art_package.id.should eq "colournames"
-      @art_package.resources
-      @art_package.id.should eq "53587fae-fb5f-46e5-ae55-14f9951d0808"
-    end
-    
+  describe "#resources", vcr: { cassette_name: "resources" } do
+    let(:package) { CKAN::Package.find(id: "3dbae792-3443-4171-bb10-afb8759364c3").first }
     it "should return details about an individual package" do
-      @art_package.resources
-      @art_package.url.should eq "http://blog.doloreslabs.com/2008/03/our-color-names-data-set-is-online/"
+      resource = package.resources.first
+      resource.url.should eq("http://opendata.smhi.se")
+      resource.description.should eq("SMHI open data services")
+      resource.last_modified.should    be_nil
+      resource.datastore_active.should be_false
     end
   end
   
   describe "#to_s" do
-    context "before resource request" do
-      it "should return the package ID in a string" do
-        @art_package.to_s.should eq "CKAN::Package[colournames]"
-      end
-    end
-
-    context "after resource request" do
-      it "should return the updated package ID in a string" do
-        @art_package.resources
-        @art_package.to_s.should eq "CKAN::Package[53587fae-fb5f-46e5-ae55-14f9951d0808]"
-      end
+    let(:package) { CKAN::Package.find(id: "3dbae792-3443-4171-bb10-afb8759364c3").first }
+    it "should return the package ID in a string" do
+      package.to_s.should eq "#<CKAN::Package:3dbae792-3443-4171-bb10-afb8759364c3>"
     end
   end
+
 end

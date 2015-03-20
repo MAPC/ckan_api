@@ -23,36 +23,38 @@ of CKAN.
 
 The gem is available at rubygems.org, so you can install it with:
 
-  $ gem install ckan
+    $ gem install ckan
 
 ## BASIC USAGE
 
 ```ruby
   require 'ckan'
 
-  # Optionally, set the base API url
-  CKAN::API.api_base = "...your CKAN API URL ..."
+  # Set the base API URL. The default is http://demo.ckan.org/api/3/.
+  CKAN::API.api_url = "https://your.ckan.net/api/3/"
 
-  # get all CKAN packages
+  # Get all CKAN packages, optionally limiting results
   packages = CKAN::Package.find
+  packages = CKAN::Package.find(rows: 5)
+  # => [#<CKAN::Package:01>, #<CKAN::Package:03fc564a07f7c3bcce4fd5d01cb4ca24>, #<CKAN::Package:05313fa4-bb70-46b5-867d-d33e6bc917b5>, #<CKAN::Package:103>, #<CKAN::Package:113214>,...]
 
-  # query for CKAN packages
-  packages = CKAN::Package.find(:tags => ["lod", "government"], :groups => "lodcloud")
+  # Search for CKAN packages
+  packages = CKAN::Package.find(tags: ["government", "weather"])
+  # => [#<CKAN::Package:3dbae792-3443-4171-bb10-afb8759364c3>(,...)]
 
-  # get the name of the package (this is a lazy call to the REST API)
-  packages.first.name
+  # Get a package by ID. At present, #find always returns an array, so remember the `.first`
+  # to get the record before doing anything with it.
+  package = CKAN::Package.find(id: "3dbae792-3443-4171-bb10-afb8759364c3").first
+  # => #<CKAN::Package:3dbae792-3443-4171-bb10-afb8759364c3>
 
-  # get the resources of the package
-  packages.first.resources
+  # Get package attributes. These are lazy-loaded through other calls
+  # to the API, to minimize initial data transfer.
+  package.name
+  # => "smhi-open-data"
 
-  # query for CKAN groups
-  groups = CKAN::Group.find
-
-  # get the description of a group
-  groups.first.description
-
-  # get the list of packages inside a group
-  groups.first.packages
+  # Get the package's resources
+  package.resources
+  # => [#<CKAN::Resource:2a09f74e-0750-4f1c-8f21-f286c601f675>()]
 ```
 
 ## LICENSE:
