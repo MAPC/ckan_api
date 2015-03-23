@@ -11,8 +11,12 @@ module CKAN
     self.show = "action/package_show"
 
     attr_reader :id
-    lazy_reader :name, :title, :url, :version, :author, :author_email,
-      :maintainer, :maintainer_email, :license_id, :notes
+    lazy_reader :name, :license_title, :title, :url, :version, :author, :author_email,
+      :maintainer, :maintainer_email, :license_id, :notes, :relationships_as_object, :private,
+      :maintainer_email, :revision_timestamp, :metadata_created, :metadata_modified, :author,
+      :author_email, :state, :version, :creator_user_id, :type, :resources, :num_resources,
+      :tags, :tracking_summary, :groups, :license_id, :relationships_as_subject, :num_tags,
+      :organization, :name, :isopen, :url, :notes, :owner_org, :extras, :title, :revision_id
 
     def initialize(id)
       @id = id

@@ -66,4 +66,24 @@ describe CKAN::Package, vcr: { cassette_name: "colournames package" } do
     end
   end
 
+  describe "attributes", vcr: { record: :new_episodes } do
+    let(:package) { CKAN::Package.find(id: "9ac6aee4-3882-41a1-ae4e-eef9ccb21745").first }
+    let(:attributes) {
+      %w(
+          id license_title maintainer relationships_as_object private 
+          maintainer_email revision_timestamp metadata_created 
+          metadata_modified author author_email state version creator_user_id 
+          type resources num_resources tags tracking_summary groups license_id
+          relationships_as_subject num_tags organization name isopen url notes
+          owner_org extras title revision_id
+      )
+    }
+    it "should be able to access every instance variable" do
+      attributes.each {|attrib| 
+        expect{ package.send(attrib) }.to_not raise_error
+      }
+    end
+  end
+
+
 end
