@@ -1,6 +1,6 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-describe CKAN::Package, vcr: { cassette_name: "colournames package" } do
+describe CKAN::Package, :vcr do
   before(:each) do
     @package = CKAN::Package.new({})
   end
@@ -10,8 +10,8 @@ describe CKAN::Package, vcr: { cassette_name: "colournames package" } do
     # its(:id) { should == "colournames" }
   end
   
-  describe "#find" do
-    context "without search options", vcr: { cassette_name: "find all packages" } do
+  describe ".find" do
+    context "without search options", :vcr do
       let(:all_packages) { CKAN::Package.find }
 
       it "should return an array of all packages" do
@@ -24,7 +24,7 @@ describe CKAN::Package, vcr: { cassette_name: "colournames package" } do
       end
     end
     
-    context "with tags", vcr: { cassette_name: "find packages tagged government and weather" } do
+    context "with tags", :vcr do
       let(:tagged_packages) { CKAN::Package.find(tags: ["government", "weather"]) }
 
       it "should return an array of tagged packages" do
@@ -37,7 +37,7 @@ describe CKAN::Package, vcr: { cassette_name: "colournames package" } do
       end
     end
 
-    context "with limits", vcr: { cassette_name: "find packages with rows" } do
+    context "with limits", :vcr do
       let(:limited_packages) { CKAN::Package.find(rows: 5) }
       it "should return 5 packages" do
         limited_packages.should be_kind_of Array
@@ -48,7 +48,7 @@ describe CKAN::Package, vcr: { cassette_name: "colournames package" } do
 
   end
   
-  describe "#resources", vcr: { cassette_name: "resources" } do
+  describe "#resources", :vcr do
     let(:package) { CKAN::Package.find(id: "3dbae792-3443-4171-bb10-afb8759364c3").first }
     it "should return details about an individual package" do
       resource = package.resources.first

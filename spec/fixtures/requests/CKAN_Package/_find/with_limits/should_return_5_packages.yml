@@ -1,0 +1,275 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://demo.ckan.org/api/3/action/package_search?rows=5
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx/1.1.19
+      Date:
+      - Mon, 20 Apr 2015 14:10:10 GMT
+      Content-Type:
+      - application/json;charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Vary:
+      - Accept-Encoding
+      Pragma:
+      - no-cache
+      Cache-Control:
+      - no-cache
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Methods:
+      - POST, PUT, GET, DELETE, OPTIONS
+      Access-Control-Allow-Headers:
+      - X-CKAN-API-KEY, Authorization, Content-Type
+    body:
+      encoding: UTF-8
+      string: '{"help": "\n    Searches for packages satisfying a given search criteria.\n\n    This
+        action accepts solr search query parameters (details below), and\n    returns
+        a dictionary of results, including dictized datasets that match\n    the search
+        criteria, a search count and also facet information.\n\n    **Solr Parameters:**\n\n    For
+        more in depth treatment of each paramter, please read the `Solr\n    Documentation
+        <http://wiki.apache.org/solr/CommonQueryParameters>`_.\n\n    This action
+        accepts a *subset* of solr''s search query parameters:\n\n\n    :param q:
+        the solr query.  Optional.  Default: `\"*:*\"`\n    :type q: string\n    :param
+        fq: any filter queries to apply.  Note: `+site_id:{ckan_site_id}`\n        is
+        added to this string prior to the query being executed.\n    :type fq: string\n    :param
+        sort: sorting of the search results.  Optional.  Default:\n        ''relevance
+        asc, metadata_modified desc''.  As per the solr\n        documentation, this
+        is a comma-separated string of field names and\n        sort-orderings.\n    :type
+        sort: string\n    :param rows: the number of matching rows to return.\n    :type
+        rows: int\n    :param start: the offset in the complete result for where the
+        set of\n        returned datasets should begin.\n    :type start: int\n    :param
+        facet: whether to enable faceted results.  Default: \"true\".\n    :type facet:
+        string\n    :param facet.mincount: the minimum counts for facet fields should
+        be\n        included in the results.\n    :type facet.mincount: int\n    :param
+        facet.limit: the maximum number of values the facet fields return.\n        A
+        negative value means unlimited. This can be set instance-wide with\n        the
+        :ref:`search.facets.limit` config option. Default is 50.\n    :type facet.limit:
+        int\n    :param facet.field: the fields to facet upon.  Default empty.  If
+        empty,\n        then the returned facet information is empty.\n    :type facet.field:
+        list of strings\n\n\n    The following advanced Solr parameters are supported
+        as well. Note that\n    some of these are only available on particular Solr
+        versions. See Solr''s\n    `dismax`_ and `edismax`_ documentation for further
+        details on them:\n\n    ``qf``, ``wt``, ``bf``, ``boost``, ``tie``, ``defType``,
+        ``mm``\n\n\n    .. _dismax: http://wiki.apache.org/solr/DisMaxQParserPlugin\n    ..
+        _edismax: http://wiki.apache.org/solr/ExtendedDisMax\n\n\n    **Results:**\n\n    The
+        result of this action is a dict with the following keys:\n\n    :rtype: A
+        dictionary with the following keys\n    :param count: the number of results
+        found.  Note, this is the total number\n        of results found, not the
+        total number of results returned (which is\n        affected by limit and
+        row parameters used in the input).\n    :type count: int\n    :param results:
+        ordered list of datasets matching the query, where the\n        ordering defined
+        by the sort parameter used in the query.\n    :type results: list of dictized
+        datasets.\n    :param facets: DEPRECATED.  Aggregated information about facet
+        counts.\n    :type facets: DEPRECATED dict\n    :param search_facets: aggregated
+        information about facet counts.  The outer\n        dict is keyed by the facet
+        field name (as used in the search query).\n        Each entry of the outer
+        dict is itself a dict, with a \"title\" key, and\n        an \"items\" key.  The
+        \"items\" key''s value is a list of dicts, each with\n        \"count\", \"display_name\"
+        and \"name\" entries.  The display_name is a\n        form of the name that
+        can be used in titles.\n    :type search_facets: nested dict of dicts.\n    :param
+        use_default_schema: use default package schema instead of\n        a custom
+        schema defined with an IDatasetForm plugin (default: False)\n    :type use_default_schema:
+        bool\n\n    An example result: ::\n\n     {''count'': 2,\n      ''results'':
+        [ { <snip> }, { <snip> }],\n      ''search_facets'': {u''tags'': {''items'':
+        [{''count'': 1,\n                                             ''display_name'':
+        u''tolstoy'',\n                                             ''name'': u''tolstoy''},\n                                            {''count'':
+        2,\n                                             ''display_name'': u''russian'',\n                                             ''name'':
+        u''russian''}\n                                           ]\n                                 }\n                       }\n     }\n\n    **Limitations:**\n\n    The
+        full solr query language is not exposed, including.\n\n    fl\n        The
+        parameter that controls which fields are returned in the solr\n        query
+        cannot be changed.  CKAN always returns the matched datasets as\n        dictionary
+        objects.\n    ", "success": true, "result": {"count": 1179, "sort": "score
+        desc, metadata_modified desc", "facets": {}, "results": [{"license_title":
+        "Creative Commons CCZero", "maintainer": "", "relationships_as_object": [],
+        "private": false, "maintainer_email": "", "revision_timestamp": "2014-12-23T07:55:17.241049",
+        "id": "b97dfc9e-4cd4-4a0f-847c-4b09361fbe21", "metadata_created": "2014-12-23T07:54:26.852710",
+        "metadata_modified": "2015-04-20T14:09:07.986677", "author": "", "author_email":
+        "", "state": "active", "version": "", "creator_user_id": "c96e8969-c6bb-4f56-9d92-ac22d9f71ceb",
+        "type": "dataset", "resources": [{"resource_group_id": "49a9858c-b89a-471c-a2c7-c1bb3a9d36a2",
+        "cache_last_updated": null, "revision_timestamp": "2014-12-23T07:55:12.490761",
+        "webstore_last_updated": "2014-12-23T07:55:12.385346", "id": "f4129802-22aa-4437-b9f9-8a8f3b7b2a53",
+        "size": null, "state": "active", "hash": "8d6f843f411898962c920a638f351378",
+        "description": "", "format": "CSV", "tracking_summary": {"total": 0, "recent":
+        0}, "last_modified": null, "url_type": "upload", "mimetype": null, "cache_url":
+        null, "name": "plantfamily", "created": "2014-12-23T07:55:06.202372", "url":
+        "http://demo.ckan.org/dataset/b97dfc9e-4cd4-4a0f-847c-4b09361fbe21/resource/f4129802-22aa-4437-b9f9-8a8f3b7b2a53/download/achariaceae.csv",
+        "webstore_url": "active", "mimetype_inner": null, "position": 0, "revision_id":
+        "6f2c9abe-0a74-4479-9eb3-afaff1e3ab4b", "resource_type": null}, {"resource_group_id":
+        "49a9858c-b89a-471c-a2c7-c1bb3a9d36a2", "cache_last_updated": null, "revision_timestamp":
+        "2014-12-23T17:00:04.139927", "webstore_last_updated": null, "id": "445598c6-0668-4af3-9ca9-06f26ba51c4a",
+        "size": null, "state": "active", "hash": "", "description": "", "format":
+        "CSV", "tracking_summary": {"total": 0, "recent": 0}, "last_modified": null,
+        "url_type": null, "mimetype": null, "cache_url": null, "name": "newdataset",
+        "created": "2014-12-23T16:57:55.117867", "url": "http://upload", "webstore_url":
+        null, "mimetype_inner": null, "position": 1, "revision_id": "21b19ec6-f2f0-4077-8ce1-47a1b17d0fee",
+        "resource_type": null}, {"resource_group_id": "49a9858c-b89a-471c-a2c7-c1bb3a9d36a2",
+        "cache_last_updated": null, "revision_timestamp": "2014-12-23T17:00:19.353939",
+        "webstore_last_updated": "2014-12-23T17:00:19.263431", "id": "efdeeb18-0d39-40cf-9c1e-570258520c64",
+        "size": null, "state": "active", "hash": "a1f0939ea46622a2a541f1e4757b412c",
+        "description": "", "format": "CSV", "tracking_summary": {"total": 0, "recent":
+        0}, "last_modified": null, "url_type": "upload", "mimetype": null, "cache_url":
+        null, "name": "newdataset", "created": "2014-12-23T17:00:04.176273", "url":
+        "http://demo.ckan.org/dataset/b97dfc9e-4cd4-4a0f-847c-4b09361fbe21/resource/efdeeb18-0d39-40cf-9c1e-570258520c64/download/acoraceae.csv",
+        "webstore_url": "active", "mimetype_inner": null, "position": 2, "revision_id":
+        "59b824f9-8039-4368-b503-ab325924a31b", "resource_type": null}, {"resource_group_id":
+        "49a9858c-b89a-471c-a2c7-c1bb3a9d36a2", "cache_last_updated": null, "revision_timestamp":
+        "2014-12-23T18:14:18.697335", "webstore_last_updated": "2014-12-23T18:14:18.594493",
+        "id": "d7935129-f227-45dd-9918-3f6525d671bf", "size": null, "state": "active",
+        "hash": "d1ea331f9011cbe41a653a57426c7f42", "description": "", "format": "CSV",
+        "tracking_summary": {"total": 0, "recent": 0}, "last_modified": null, "url_type":
+        "upload", "mimetype": null, "cache_url": null, "name": "mydata", "created":
+        "2014-12-23T18:14:08.398689", "url": "http://demo.ckan.org/dataset/b97dfc9e-4cd4-4a0f-847c-4b09361fbe21/resource/d7935129-f227-45dd-9918-3f6525d671bf/download/actinidiaceae.csv",
+        "webstore_url": "active", "mimetype_inner": null, "position": 3, "revision_id":
+        "5be9f589-bdc8-40dc-a602-cf040eb075df", "resource_type": null}, {"resource_group_id":
+        "49a9858c-b89a-471c-a2c7-c1bb3a9d36a2", "cache_last_updated": null, "revision_timestamp":
+        "2015-01-16T17:59:35.285975", "webstore_last_updated": null, "id": "ed2bd101-385d-4f68-b97c-5365401a2536",
+        "size": null, "state": "active", "hash": "", "description": "adfdf a ", "format":
+        "JSON", "tracking_summary": {"total": 0, "recent": 0}, "last_modified": null,
+        "url_type": null, "mimetype": null, "cache_url": null, "name": "mtcars", "created":
+        "2015-01-16T17:59:35.316065", "url": "http://scottchamberlain.info/", "webstore_url":
+        null, "mimetype_inner": null, "position": 4, "revision_id": "84e453de-0e9a-44d3-84a2-dd050bdaae25",
+        "resource_type": null}, {"resource_group_id": "49a9858c-b89a-471c-a2c7-c1bb3a9d36a2",
+        "cache_last_updated": null, "revision_timestamp": "2015-01-16T17:59:36.845965",
+        "webstore_last_updated": null, "id": "38f11564-6c2c-46d3-b1d8-770507e47e01",
+        "size": null, "state": "active", "hash": "", "description": "adfdf a ", "format":
+        "JSON", "tracking_summary": {"total": 0, "recent": 0}, "last_modified": null,
+        "url_type": null, "mimetype": null, "cache_url": null, "name": "mtcars", "created":
+        "2015-01-16T17:59:36.879781", "url": "http://scottchamberlain.info/", "webstore_url":
+        null, "mimetype_inner": null, "position": 5, "revision_id": "ec310a78-69fb-4e27-bf4e-bb72530b34a4",
+        "resource_type": null}, {"resource_group_id": "49a9858c-b89a-471c-a2c7-c1bb3a9d36a2",
+        "cache_last_updated": null, "revision_timestamp": "2015-04-20T14:09:07.984832",
+        "webstore_last_updated": "2015-04-20T14:09:07.868099", "id": "13d7fbae-a90b-4ffa-beeb-34b42e0680e2",
+        "size": null, "state": "active", "hash": "d1ea331f9011cbe41a653a57426c7f42",
+        "description": "", "format": "CSV", "tracking_summary": {"total": 0, "recent":
+        0}, "last_modified": null, "url_type": "upload", "mimetype": null, "cache_url":
+        null, "name": "mydata", "created": "2015-04-20T14:08:57.569974", "url": "http://demo.ckan.org/dataset/b97dfc9e-4cd4-4a0f-847c-4b09361fbe21/resource/13d7fbae-a90b-4ffa-beeb-34b42e0680e2/download/actinidiaceae.csv",
+        "webstore_url": "active", "mimetype_inner": null, "position": 6, "revision_id":
+        "e2f9f2cf-9e99-4ed8-a64e-9663246c2b20", "resource_type": null}], "num_resources":
+        7, "tags": [], "tracking_summary": {"total": 0, "recent": 0}, "groups": [],
+        "license_id": "cc-zero", "relationships_as_subject": [], "num_tags": 0, "organization":
+        null, "name": "testingagain", "isopen": true, "url": "", "notes": "asdfafsdf",
+        "owner_org": null, "extras": [], "license_url": "http://www.opendefinition.org/licenses/cc-zero",
+        "title": "testingagain", "revision_id": "f9adf7aa-754b-4503-8560-0f4a1fdccbdb"},
+        {"license_title": "License Not Specified", "maintainer": "", "relationships_as_object":
+        [], "private": false, "maintainer_email": "", "revision_timestamp": "2015-04-20T13:22:23.717013",
+        "id": "45e27798-8a5a-49e8-aa15-eab4174725b3", "metadata_created": "2015-04-20T13:21:52.992548",
+        "metadata_modified": "2015-04-20T13:22:23.718521", "author": "", "author_email":
+        "", "state": "active", "version": "", "creator_user_id": "94b2c82e-65c9-40a9-9b75-d21f41222cb3",
+        "type": "dataset", "resources": [{"resource_group_id": "fc44e885-0f69-4997-a63d-cc8094248228",
+        "cache_last_updated": null, "revision_timestamp": "2015-04-20T13:22:23.717013",
+        "webstore_last_updated": null, "id": "190b6ebb-4e47-46a4-8844-6f8b561eef55",
+        "size": null, "state": "active", "hash": "", "description": "", "format":
+        "", "tracking_summary": {"total": 0, "recent": 0}, "last_modified": null,
+        "url_type": "upload", "mimetype": null, "cache_url": null, "name": "ABC-123
+        dataset", "created": "2015-04-20T13:22:20.099449", "url": "http://demo.ckan.org/dataset/45e27798-8a5a-49e8-aa15-eab4174725b3/resource/190b6ebb-4e47-46a4-8844-6f8b561eef55/download/airpassengers.csv",
+        "webstore_url": null, "mimetype_inner": null, "position": 0, "revision_id":
+        "4639d260-b6b0-4a31-8c46-8e6c1b29eb8e", "resource_type": null}], "num_resources":
+        1, "tags": [], "tracking_summary": {"total": 0, "recent": 0}, "groups": [{"display_name":
+        "Raisoni-Group", "description": "A group of Raisoni students and teachers",
+        "image_display_url": "", "title": "Raisoni-Group", "id": "c87300b5-7c93-4f9d-a365-125552122f07",
+        "name": "raisoni-group"}], "license_id": "notspecified", "relationships_as_subject":
+        [], "num_tags": 0, "organization": null, "name": "abc-123", "isopen": false,
+        "url": "", "notes": "", "owner_org": null, "extras": [], "title": "ABC-123",
+        "revision_id": "4639d260-b6b0-4a31-8c46-8e6c1b29eb8e"}, {"license_title":
+        "License Not Specified", "maintainer": "", "relationships_as_object": [],
+        "private": false, "maintainer_email": "", "revision_timestamp": "2015-04-20T12:34:48.985531",
+        "id": "1ee51031-a827-4fc8-bf9e-5e43221887d3", "metadata_created": "2015-04-20T12:33:56.028668",
+        "metadata_modified": "2015-04-20T12:34:48.987070", "author": "", "author_email":
+        "", "state": "active", "version": "", "creator_user_id": "94b2c82e-65c9-40a9-9b75-d21f41222cb3",
+        "type": "dataset", "resources": [{"resource_group_id": "ebb0fda2-7b45-48a6-9716-8efc4e088310",
+        "cache_last_updated": null, "revision_timestamp": "2015-04-20T12:34:48.985531",
+        "webstore_last_updated": null, "id": "42556f68-16a8-4d84-9b48-f1e6c5601830",
+        "size": null, "state": "active", "hash": "", "description": "", "format":
+        "CSV", "tracking_summary": {"total": 0, "recent": 0}, "last_modified": null,
+        "url_type": "upload", "mimetype": null, "cache_url": null, "name": "Riasoni
+        air Passengers list", "created": "2015-04-20T12:34:38.119608", "url": "http://demo.ckan.org/dataset/1ee51031-a827-4fc8-bf9e-5e43221887d3/resource/42556f68-16a8-4d84-9b48-f1e6c5601830/download/airpassengers.csv",
+        "webstore_url": null, "mimetype_inner": null, "position": 0, "revision_id":
+        "388424e2-1539-40f8-a0e4-25e1c302a7bf", "resource_type": null}], "num_resources":
+        1, "tags": [], "tracking_summary": {"total": 0, "recent": 0}, "groups": [{"display_name":
+        "IBM_GROUP", "description": "", "image_display_url": "", "title": "IBM_GROUP",
+        "id": "9c7b193e-ca0d-4186-8e2b-05a06f3e8199", "name": "ibm-group"}, {"display_name":
+        "Raisoni-Group", "description": "A group of Raisoni students and teachers",
+        "image_display_url": "", "title": "Raisoni-Group", "id": "c87300b5-7c93-4f9d-a365-125552122f07",
+        "name": "raisoni-group"}, {"display_name": "my-data-group", "description":
+        "Group of my dataset", "image_display_url": "", "title": "my-data-group",
+        "id": "5028deab-42da-474d-a669-47268845925d", "name": "my-data-group"}], "license_id":
+        "notspecified", "relationships_as_subject": [], "num_tags": 0, "organization":
+        {"description": "An organization of students", "created": "2015-04-20T12:32:57.037360",
+        "title": "Raisoni-Organization", "name": "raisoni-organization", "revision_timestamp":
+        "2015-04-20T12:32:56.984020", "is_organization": true, "state": "active",
+        "image_url": "http://ridea.in/images/rrr.jpg", "revision_id": "2797a3f1-6ae7-4a31-b2e2-b5ddee4cf4df",
+        "type": "organization", "id": "4ea16902-5e5d-4065-95a6-c8217a3d177b", "approval_status":
+        "approved"}, "name": "raisoni-airlines", "isopen": false, "url": "", "notes":
+        "List of Raisoni''s airline passengers", "owner_org": "4ea16902-5e5d-4065-95a6-c8217a3d177b",
+        "extras": [], "title": "Raisoni-Airlines", "revision_id": "388424e2-1539-40f8-a0e4-25e1c302a7bf"},
+        {"license_title": "License Not Specified", "maintainer": "", "relationships_as_object":
+        [], "private": false, "maintainer_email": "", "revision_timestamp": "2015-04-20T11:52:51.757923",
+        "id": "49515923-b4fd-41c5-8fae-ea860d2cd5a8", "metadata_created": "2015-04-20T11:50:55.848450",
+        "metadata_modified": "2015-04-20T11:52:51.759349", "author": "", "author_email":
+        "", "state": "active", "version": "", "creator_user_id": "94b2c82e-65c9-40a9-9b75-d21f41222cb3",
+        "type": "dataset", "resources": [{"resource_group_id": "40072dda-f7eb-454d-82d2-b3c251f97649",
+        "cache_last_updated": null, "revision_timestamp": "2015-04-20T11:52:17.120675",
+        "webstore_last_updated": null, "id": "86032dc1-03f8-4a01-bf80-c08a2534caac",
+        "size": null, "state": "active", "hash": "", "description": "", "format":
+        "CSV", "tracking_summary": {"total": 0, "recent": 0}, "last_modified": null,
+        "url_type": "upload", "mimetype": null, "cache_url": null, "name": "Air passengers
+        info", "created": "2015-04-20T11:52:08.674857", "url": "http://demo.ckan.org/dataset/49515923-b4fd-41c5-8fae-ea860d2cd5a8/resource/86032dc1-03f8-4a01-bf80-c08a2534caac/download/airpassengers.csv",
+        "webstore_url": null, "mimetype_inner": null, "position": 0, "revision_id":
+        "e3af0831-93e5-43bb-8873-8b2f799aad81", "resource_type": null}], "num_resources":
+        1, "tags": [], "tracking_summary": {"total": 0, "recent": 0}, "groups": [],
+        "license_id": "notspecified", "relationships_as_subject": [], "num_tags":
+        0, "organization": {"description": "", "created": "2015-04-20T11:47:32.483859",
+        "title": "Persistent systems", "name": "persistent-systems", "revision_timestamp":
+        "2015-04-20T11:47:32.438260", "is_organization": true, "state": "active",
+        "image_url": "", "revision_id": "d0eefe5c-e628-4c9c-aa78-430decdb2728", "type":
+        "organization", "id": "bf8b53bc-ffdb-4a3f-b14d-da6422f37dc0", "approval_status":
+        "approved"}, "name": "air-passengers2", "isopen": false, "url": "", "notes":
+        "", "owner_org": "bf8b53bc-ffdb-4a3f-b14d-da6422f37dc0", "extras": [], "title":
+        "Air Passengers", "revision_id": "ab680f96-5478-437a-9106-79ceab888463"},
+        {"license_title": "Creative Commons CCZero", "maintainer": null, "relationships_as_object":
+        [], "private": false, "maintainer_email": null, "revision_timestamp": "2015-04-20T09:09:20.231404",
+        "id": "35f00074-a7b9-4f65-a395-db125ea53096", "metadata_created": "2015-04-20T09:07:25.692372",
+        "metadata_modified": "2015-04-20T09:09:20.233219", "author": "", "author_email":
+        null, "state": "active", "version": null, "creator_user_id": "94f6032e-19e5-4a00-9635-2f72fa9adbc9",
+        "type": "dataset", "resources": [{"resource_group_id": "d1b70654-fd91-4d70-8d3d-491937eda08a",
+        "cache_last_updated": null, "revision_timestamp": "2015-04-20T09:07:26.790755",
+        "webstore_last_updated": null, "id": "be010959-b1c2-42f1-b1ec-c1031721dc77",
+        "size": null, "state": "active", "hash": "", "description": "caercracacd",
+        "format": "png", "tracking_summary": {"total": 0, "recent": 0}, "mimetype_inner":
+        "", "url_type": "", "mimetype": "", "cache_url": null, "name": "car", "license":
+        "", "created": "2015-04-01T14:04:21.008106", "url": "http://www.sixt.com/uploads/pics/mercedes_slk-sixt_rent_a_car.png",
+        "webstore_url": null, "last_modified": null, "position": 0, "revision_id":
+        "e09ab360-f1d2-450f-9dfa-509ea17e06b4", "resource_type": null}], "num_resources":
+        1, "tags": [], "tracking_summary": {"total": 0, "recent": 0}, "groups": [],
+        "license_id": "cc-zero", "relationships_as_subject": [], "num_tags": 0, "organization":
+        {"description": "", "created": "2015-01-19T10:27:59.939019", "title": "",
+        "name": "comsode", "revision_timestamp": "2015-01-19T10:27:59.622138", "is_organization":
+        true, "state": "active", "image_url": "", "revision_id": "cfb079bf-9dc8-42c2-9798-e1cfa31ea41b",
+        "type": "organization", "id": "1daa42d7-f941-464a-bfd9-5095d04c50be", "approval_status":
+        "approved"}, "name": "gfhj", "isopen": true, "url": null, "notes": "thisisadataset",
+        "owner_org": "1daa42d7-f941-464a-bfd9-5095d04c50be", "extras": [], "license_url":
+        "http://www.opendefinition.org/licenses/cc-zero", "title": "gfhj", "revision_id":
+        "48531ca1-272b-41a2-84f0-dc1e38907a90"}], "search_facets": {}}}'
+    http_version: 
+  recorded_at: Mon, 20 Apr 2015 14:10:09 GMT
+recorded_with: VCR 2.4.0

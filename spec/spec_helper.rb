@@ -3,10 +3,14 @@ require 'vcr'
 require 'webmock'
 include WebMock
 
-VCR.configure do |c|
-  c.hook_into :webmock
-  c.cassette_library_dir = 'spec/cassettes'
-  c.configure_rspec_metadata!
+VCR.configure do |config|
+  config.cassette_library_dir = 'spec/fixtures/requests'
+  config.hook_into :webmock
+  config.configure_rspec_metadata! # Auto-name requests based on test name
+  config.default_cassette_options = { 
+    record: :new_episodes,
+    re_record_interval: 604800 # 1.week.to_i (without Rails)
+  }
 end
 
 RSpec.configure do |config|
